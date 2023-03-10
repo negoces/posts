@@ -1,0 +1,137 @@
+
+# ================ Site Config ================
+
+title: "negoces の 博客"
+baseURL: "https://posts.negoces.top/"
+timeZone: "Asia/Shanghai"
+languageCode: "zh-CN"
+
+enableGitInfo: false
+enableInlineShortcodes: true
+enableRobotsTXT: true
+hasCJKLanguage: true
+#GoogleAnalytics: G-Y8WFSWBFMV
+
+description: 人最重要的特点是会思考，写博客的初衷是保存思维的电子快照。 当然各种文档工具亦或是简单的文本编辑器也能随时记录点滴，选择建个人网站无非是想满足技术爱好者的偏执。
+# featuredImageField: image
+favicon: /favicon.ico
+
+#paginate: 8
+#summaryLength: 64
+
+theme: hugo-theme-stack
+
+# ================ i18n Config ================
+
+DefaultContentLanguage: "zh-cn"
+
+# ================ Menu Config ================
+
+menu:
+  main:
+    - name: "主页"
+      url: /
+      weight: -100
+      params:
+        icon: home
+    - name: "文章"
+      url: /post/
+      weight: -90
+      params:
+        icon: infinity
+    - name: "搜索"
+      url: /search/
+      weight: -80
+      params:
+        icon: search
+    - name: "时间线"
+      url: /timeline/
+      weight: -70
+      params:
+        icon: clock
+    - name: "Github"
+      url: "https://github.com/negoces/"
+      weight: -60
+      params:
+        icon: brand-github
+        newTab: true
+
+# ================ Params Config ================
+
+params:
+  Sidebar:
+    compact: false
+    emoji: 🙃
+    subtitle: 只是一个废物的笔记本
+    avatar:
+      enable: true
+      src: img/avatar.png
+  Footer:
+    since: 2020
+    customText: customText
+  Article:
+    math: true
+    toc: true
+    readingTime: false
+    license:
+      enabled: true
+      default: "CC BY-NC-SA 4.0 转载或引用本文时请遵守许可协议，注明出处、不得用于商业用途！"
+  widgets:
+    homepage:
+      - type: search
+      - type: categories
+        params:
+          limit: 99
+    page:
+      - type: toc
+  Comments:
+    enable: false
+    provider: giscus
+    giscus:
+      repo: negoces/posts
+      repoID:
+      category:
+      categoryID:
+      mapping:
+      strict:
+      lightTheme:
+      darkTheme:
+      reactionsEnabled: 1
+      emitMetadata: 0
+      inputPosition:
+      lang:
+
+# ================ Permalinks Config ================
+
+permalinks:
+   post: /post/:slug
+   page: /:slug
+
+# ================================
+
+#sitemap:
+#     changefreq: weekly
+#    changefreq: hourly
+#    filename: sitemap.xml
+#    priority: 0.5
+
+disableKinds:
+    - "RSS"
+
+markup:
+  # 语法高亮列表：https://gohugo.io/content-management/syntax-highlighting/#list-of-chroma-highlighting-languages
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    hl_Lines: ""
+    lineNoStart: 1
+    lineNos: true
+    lineNumbersInTable: false
+    noClasses: false
+    style: monokai
+    tabWidth: 4
+  tableOfContents:
+    endLevel: 4
+    ordered: true
+    startLevel: 2

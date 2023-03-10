@@ -1,0 +1,208 @@
+pre.chroma {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+button.copyCodeButton {
+    display: none;
+}
+
+.chroma {
+	overflow: auto;
+	border-radius: .375rem;
+	padding: .25rem .25rem;
+	color: #f8f8f2;
+	background-color: var(--code-block-bg);
+	.err {
+		color: #960050;
+		background-color: #1e0010;
+	}
+	.lntd {
+		vertical-align: top;
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+	.lntable {
+		border-spacing: 0;
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+	.hl {
+		background-color: #ffffcc;
+	}
+	.lnt {
+		white-space: pre;
+		user-select: none;
+		margin-right: 0.4em;
+		padding: 0 0.4em 0 0.4em;
+		color: #7f7f7f;
+	}
+	.ln {
+		white-space: pre;
+		user-select: none;
+		margin-right: 0.4em;
+		padding: 0 0.4em 0 0.4em;
+		color: #7f7f7f;
+	}
+	.line {
+		display: flex;
+	}
+	.k {
+		color: #66d9ef;
+	}
+	.kc {
+		color: #66d9ef;
+	}
+	.kd {
+		color: #66d9ef;
+	}
+	.kp {
+		color: #66d9ef;
+	}
+	.kr {
+		color: #66d9ef;
+	}
+	.kt {
+		color: #66d9ef;
+	}
+	.no {
+		color: #66d9ef;
+	}
+	.na {
+		color: #a6e22e;
+	}
+	.nc {
+		color: #a6e22e;
+	}
+	.nd {
+		color: #a6e22e;
+	}
+	.ne {
+		color: #a6e22e;
+	}
+	.nf {
+		color: #a6e22e;
+	}
+	.nx {
+		color: #a6e22e;
+	}
+	.gi {
+		color: #a6e22e;
+	}
+	.kn {
+		color: #f92672;
+	}
+	.nt {
+		color: #f92672;
+	}
+	.o {
+		color: #f92672;
+	}
+	.ow {
+		color: #f92672;
+	}
+	.gd {
+		color: #f92672;
+	}
+	.l {
+		color: #ae81ff;
+	}
+	.se {
+		color: #ae81ff;
+	}
+	.m {
+		color: #ae81ff;
+	}
+	.mb {
+		color: #ae81ff;
+	}
+	.mf {
+		color: #ae81ff;
+	}
+	.mh {
+		color: #ae81ff;
+	}
+	.mi {
+		color: #ae81ff;
+	}
+	.il {
+		color: #ae81ff;
+	}
+	.mo {
+		color: #ae81ff;
+	}
+	.ld {
+		color: #e6db74;
+	}
+	.s {
+		color: #e6db74;
+	}
+	.sa {
+		color: #e6db74;
+	}
+	.sb {
+		color: #e6db74;
+	}
+	.sc {
+		color: #e6db74;
+	}
+	.dl {
+		color: #e6db74;
+	}
+	.sd {
+		color: #e6db74;
+	}
+	.s2 {
+		color: #e6db74;
+	}
+	.sh {
+		color: #e6db74;
+	}
+	.si {
+		color: #e6db74;
+	}
+	.sx {
+		color: #e6db74;
+	}
+	.sr {
+		color: #e6db74;
+	}
+	.s1 {
+		color: #e6db74;
+	}
+	.ss {
+		color: #e6db74;
+	}
+	.c {
+		color: #75715e;
+	}
+	.ch {
+		color: #75715e;
+	}
+	.cm {
+		color: #75715e;
+	}
+	.c1 {
+		color: #75715e;
+	}
+	.cs {
+		color: #75715e;
+	}
+	.cp {
+		color: #75715e;
+	}
+	.cpf {
+		color: #75715e;
+	}
+	.gu {
+		color: #75715e;
+	}
+	.ge {
+		font-style: italic;
+	}
+	.gs {
+		font-weight: bold;
+	}
+}
