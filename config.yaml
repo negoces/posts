@@ -68,7 +68,8 @@ params:
       src: img/avatar.png
   Footer:
     since: 2020
-    customText: customText
+    customText: 人最重要的特点是会思考，写博客的初衷是保存思维的电子快照。 当然各种文档工具亦或是简单的文本编辑器也能随时记录点滴，选择建个人网站无非是想满足技术爱好者的偏执。
+# featuredImageField: image
   Article:
     math: true
     toc: true
@@ -85,21 +86,21 @@ params:
     page:
       - type: toc
   Comments:
-    enable: false
+    enable: true
     provider: giscus
     giscus:
       repo: negoces/posts
-      repoID:
-      category:
-      categoryID:
-      mapping:
-      strict:
-      lightTheme:
-      darkTheme:
+      repoID: R_kgDOJHr1JA
+      category: Comments
+      categoryID: DIC_kwDOJHr1JM4CUxYb
+      mapping: pathname
+      strict: 0
+      lightTheme: light
+      darkTheme: dark_dimmed
       reactionsEnabled: 1
       emitMetadata: 0
-      inputPosition:
-      lang:
+      inputPosition: top
+      lang: zh-CN
 
 # ================ Permalinks Config ================
 
