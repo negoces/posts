@@ -13,7 +13,6 @@ hasCJKLanguage: true
 #GoogleAnalytics: G-Y8WFSWBFMV
 
 description: 人最重要的特点是会思考，写博客的初衷是保存思维的电子快照。 当然各种文档工具亦或是简单的文本编辑器也能随时记录点滴，选择建个人网站无非是想满足技术爱好者的偏执。
-# featuredImageField: image
 favicon: /favicon.ico
 
 #paginate: 8
@@ -59,17 +58,19 @@ menu:
 # ================ Params Config ================
 
 params:
+  mainSections: [post]
+  featuredImageField: image
+  rssFullContent: true
   Sidebar:
     compact: false
     emoji: 🙃
-    subtitle: 只是一个废物的笔记本
+    subtitle: 一只废物的笔记本
     avatar:
       enable: true
       src: img/avatar.png
   Footer:
     since: 2020
     customText: 人最重要的特点是会思考，写博客的初衷是保存思维的电子快照。 当然各种文档工具亦或是简单的文本编辑器也能随时记录点滴，选择建个人网站无非是想满足技术爱好者的偏执。
-# featuredImageField: image
   Article:
     math: true
     toc: true
@@ -79,14 +80,13 @@ params:
       default: "CC BY-NC-SA 4.0 转载或引用本文时请遵守许可协议，注明出处、不得用于商业用途！"
   widgets:
     homepage:
-      - type: search
       - type: categories
         params:
           limit: 99
     page:
       - type: toc
-  Comments:
-    enable: true
+  comments:
+    enabled: true
     provider: giscus
     giscus:
       repo: negoces/posts
@@ -117,7 +117,7 @@ permalinks:
 #    priority: 0.5
 
 disableKinds:
-    - "RSS"
+  - "RSS"
 
 markup:
   # 语法高亮列表：https://gohugo.io/content-management/syntax-highlighting/#list-of-chroma-highlighting-languages
