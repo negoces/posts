@@ -2,7 +2,7 @@
 # ================ Site Config ================
 
 title: "negoces の 博客"
-baseURL: "https://posts.negoces.top/"
+baseURL: "https://posts.nekodayo.top/"
 timeZone: "Asia/Shanghai"
 languageCode: "zh-CN"
 
