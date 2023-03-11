@@ -9,6 +9,4 @@ categories: Announcement
 weight: 1
 ---
 
-<!--more-->
-
 过一段时间再来吧

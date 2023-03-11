@@ -6,7 +6,7 @@ baseURL: "https://posts.nekodayo.top/"
 timeZone: "Asia/Shanghai"
 languageCode: "zh-CN"
 
-enableGitInfo: false
+enableGitInfo: true
 enableInlineShortcodes: true
 enableRobotsTXT: true
 hasCJKLanguage: true

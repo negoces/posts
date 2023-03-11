@@ -1,8 +1,9 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
+description: "description"
 date: {{ .Date }}
 slug: {{ substr ( ( printf "%s%s" .Date .Name ) | base64Encode | sha256 ) -8 }}
-#cover: "cover.png"
+#image: "cover.png"
 tags: []
 categories: undefined
 ---
