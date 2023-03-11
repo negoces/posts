@@ -101,6 +101,10 @@ params:
       emitMetadata: 0
       inputPosition: top
       lang: zh-CN
+  opengraph:
+    twitter:
+      site:
+      card: summary_large_image
 
 # ================ Permalinks Config ================
 
