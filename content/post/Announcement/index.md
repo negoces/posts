@@ -10,3 +10,9 @@ weight: 1
 ---
 
 过一段时间再来吧
+
+旧站点: (后期均会迁移过来)
+
+- <https://negoces.top/>
+- <https://new.negoces.top/>
+- <https://blog.negoces.top/>
