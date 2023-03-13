@@ -1,0 +1,7 @@
+<div class="columns-flex">
+    {{ range split .Inner "<--->" }}
+        <div class="columns-item">
+            {{ . | $.Page.RenderString }}
+        </div>
+        {{ end }}
+</div>
