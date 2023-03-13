@@ -161,7 +161,7 @@ Tips: 如果要加入多个网络:
 
 #### 方案二: 密码验证
 
-官方文档给的方案无法使用，还在探索
+[官方文档(GitHub)](https://github.com/ntop/n2n/blob/dev/doc/Authentication.md) 给的方案无法使用，还在探索
 
 - 排查后发现原因出在 Header 加密，但未发现解决方案
 
