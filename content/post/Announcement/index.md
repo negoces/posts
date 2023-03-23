@@ -1,6 +1,6 @@
 ---
 title: "📣 Announcement | 公告"
-description: "近期公告: 增加了分栏功能"
+description: "近期公告: 增加了提示功能"
 date: 2023-03-10T12:23:08+08:00
 slug: announcement
 #cover: "cover.png"
