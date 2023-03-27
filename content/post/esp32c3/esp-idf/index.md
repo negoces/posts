@@ -97,5 +97,18 @@ idf.py flash monitor
 {{<hint info>}}
 **WSL2下使用串口请参考:**
 
-- <https://github.com/dorssel/usbipd-win>
+- Windows 安装: <https://github.com/dorssel/usbipd-win>
+- Linux 安装: `usbip`
+- 使用方法:
+    - Windows:
+        - `usbipd list`
+        - `usbipd bind --force --busid=<busid>` (管理员)
+    - Linux:
+        - `usbip list --remote=<host>`
+        - `sudo usbip list --remote=<host> --busid=<busid>`
+
+**在 Arch Linux 上没有权限访问串口:**
+
+- `sudo usermod -aG uucp ${USER}`
+- 重新登录
 {{</hint>}}
