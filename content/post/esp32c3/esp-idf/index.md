@@ -26,7 +26,9 @@ sudo pacman -S --needed gcc git make flex bison gperf python cmake ninja ccache 
 
 ## Clone ESP-IDF
 
-以 `release/v5.0` 版本为例
+{{<hint info>}}
+以 `release/v5.0` (目前为 v5.0.1) 版本为例，目前可选版本有: <https://github.com/espressif/esp-idf/tags>
+{{</hint>}}
 
 ```bash
 git clone -b release/v5.0 --depth 1 --recursive https://github.com/espressif/esp-idf.git ${HOME}/.local/opt/esp-idf-v5.0
