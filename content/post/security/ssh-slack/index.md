@@ -4,8 +4,8 @@ description: "叮！有新的登录。"
 date: 2023-04-04T15:01:46+08:00
 slug: 7f3deb5a
 #image: "cover.png"
-tags: []
-categories: undefined
+tags: [Security, PAM, SSH, Slack, Golang]
+categories: Security
 ---
 
 ## 预览
