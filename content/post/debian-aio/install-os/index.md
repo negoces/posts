@@ -261,6 +261,37 @@ efibootmgr -c -g -L "Debian" -l '\EFI\Debian\vmlinuz' \
   -u "root=UUID=$UUID rw loglevel=3 rootfstype=xfs add_efi_memmap initrd=\\EFI\\Debian\\initrd.img"
 ```
 
+### [选] 开启 DHCP 客户端和 SSH 服务
+
+- 启用 DHCP 获取 IP
+    - **通用配置，临时使用，后续配置网络时会删除**
+    1. 编辑 `/etc/systemd/network/01-dhcp.network`
+    1. 填写以下内容
+        ```ini
+        [Match]
+        Name = e*
+
+        [Network]
+        DHCP = yes
+        ```
+        - 一键脚本
+        ```bash
+        echo "[Match]
+        Name = e*
+
+        [Network]
+        DHCP = yes" | tee /etc/systemd/network/01-dhcp.network
+        ```
+    1. 设置开机自启
+        ```bash
+        systemctl enable systemd-networkd
+        ```
+- 启用 SSH 服务器
+    - 对于 Debian，**安装默认自启**
+        ```bash
+        apt install -y openssh-server
+        ```
+
 ## 退出并重启
 
 ```bash
