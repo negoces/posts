@@ -8,17 +8,11 @@ tags: [Debian, Router, Gateway, SystemD, networkd]
 categories: Debian Router
 ---
 
-{{<hint info>}}
-**当前阶段:**
-
-实现基本功能，拨号及 IPv6 待补充
-{{</hint>}}
-
 ## 结构
 
 ![net_arch](net_arch.svg)
 
-## 配置
+## 接口配置
 
 - **Tips:**
     - `*.link`、`*.netdev` 配置需要重启生效
@@ -90,6 +84,18 @@ Address=192.168.64.1/24
 ConfigureWithoutCarrier=yes
 ```
 
+- DHCP Server (若使用 networkd 内置 DHCP 服务器，将下面内容追加到上面的配置文件中)
+
+```ini
+[Network]
+DHCPServer=yes
+
+[DHCPServer]
+PoolSize=253
+DNS=_server_address
+BindToInterface=yes
+```
+
 #### 将物理网口绑定到网桥
 
 - 创建并编辑 `/etc/systemd/network/20-br-lan-bind.network`
@@ -105,3 +111,134 @@ Bridge=br-lan
 ```
 
 **至此，可将 `/etc/systemd/network/01-dhcp.network` 安全的删除**
+
+## PPPoE 拨号
+
+- 安装 ppp
+
+```bash
+# Debian
+sudo apt install -y ppp
+# Arch Linux
+sudo pacman -Sy ppp
+```
+
+{{<hint info>}}
+**LXC容器中使用ppp设备**
+
+`sudo lxc-device add -n <name> /dev/ppp /dev/ppp`
+{{</hint>}}
+
+### 创建拨号配置
+
+- 以中国电信为例
+- 创建并编辑 `/etc/ppp/peers/telecom`
+
+```ini
+plugin pppoe.so
+eth0
+
+# Username, Password
+name "xxxxxxxxxxx"
+password "xxxxxx"
+
+noauth
+pap-timeout 10
+hide-password
+ifname ppp-telecom
+
+# Default Route
+defaultroute
+replacedefaultroute
+ipv6cp-accept-local
+
+# Detect Link Status
+lcp-echo-interval 5
+lcp-echo-failure 3
+```
+
+### 自动拨号
+
+#### 对于 Arch Linux
+
+- 创建并编辑 `/etc/systemd/system/ppp@.service.d/override.conf`
+
+```ini
+[Unit]
+After=systemd-networkd.service
+
+[Service]
+Restart=always
+RestartSec=30
+StartLimitInterval=0
+```
+
+- 随后使用 `systemctl` 启用 `ppp@telecom.service` 即可
+
+#### 对于 Debian
+
+- 创建并编辑 `/etc/systemd/system/ppp-telecom.service`
+
+```ini
+[Unit]
+Description=PPP link to Telecom
+Before=network.target
+After=systemd-networkd.service
+
+[Service]
+ExecStart=/usr/sbin/pppd call telecom nodetach nolog
+Restart=always
+RestartSec=30
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
+```
+
+- 随后使用 `systemctl` 启用 `ppp-telecom.service` 即可
+
+### IPv6 配置
+
+#### PPPoE 接口 networkd 配置
+
+```ini
+# /etc/systemd/network/20-ppp-telecom.network
+[Match]
+Name=ppp-telecom
+
+[Network]
+# Keep ipcp IPv4
+KeepConfiguration=static
+# DHCPv6-PD Client
+DHCP=ipv6
+IPv6AcceptRA=no
+DHCPPrefixDelegation=yes
+# Default Route
+DefaultRouteOnDevice=yes
+
+[DHCPPrefixDelegation]
+UplinkInterface=:self
+#SubnetId=0x0
+Announce=no
+```
+
+#### br-lan 下发 IPv6
+
+**省略上文已配置内容**
+
+```ini
+# /etc/systemd/network/20-br-lan.network
+[Match]
+Name=br-lan
+
+[Network]
+DHCPPrefixDelegation=yes
+IPv6SendRA=yes
+
+[IPv6SendRA]
+DNS=_link_local
+
+[DHCPPrefixDelegation]
+UplinkInterface=:auto
+Announce=yes
+```
