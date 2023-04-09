@@ -94,6 +94,15 @@ DHCPServer=yes
 PoolSize=253
 DNS=_server_address
 BindToInterface=yes
+
+# MACAddress 静态绑定
+[DHCPServerStaticLease]
+MACAddress = xx:xx:xx:xx:xx:xx
+Address = xx.xx.xx.xx
+
+[DHCPServerStaticLease]
+MACAddress = xx:xx:xx:xx:xx:xx
+Address = xx.xx.xx.xx
 ```
 
 #### 将物理网口绑定到网桥
