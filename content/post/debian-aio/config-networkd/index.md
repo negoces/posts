@@ -52,6 +52,13 @@ Name=eth0
 DHCP=yes
 ```
 
+### 设置本机 DNS
+
+```bash
+echo "nameserver 114.114.114.114" | \
+sudo tee /etc/resolv.conf
+```
+
 ### 创建 br-lan 网桥
 
 #### 创建网桥设备
