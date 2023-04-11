@@ -171,17 +171,21 @@ arch-chroot /mnt
 ### 设置 Debian 镜像源
 
 ```bash
-export MIRROR_URL="https://mirrors.bfsu.edu.cn"
+export MIRROR_URL="http://mirrors.bfsu.edu.cn"
 export BRANCH="testing"
 export COMPONENT="main contrib non-free non-free-firmware"
 
-apt install ca-certificates
 echo "deb ${MIRROR_URL}/debian/ ${BRANCH} ${COMPONENT}
 deb ${MIRROR_URL}/debian/ ${BRANCH}-updates ${COMPONENT}
 deb ${MIRROR_URL}/debian-security/ ${BRANCH}-security ${COMPONENT}" | \
-tee /etc/apt/sources.list
+tee /etc/apt/sources.list && apt update && apt install ca-certificates
 
-apt update
+export MIRROR_URL="https://mirrors.bfsu.edu.cn"
+
+echo "deb ${MIRROR_URL}/debian/ ${BRANCH} ${COMPONENT}
+deb ${MIRROR_URL}/debian/ ${BRANCH}-updates ${COMPONENT}
+deb ${MIRROR_URL}/debian-security/ ${BRANCH}-security ${COMPONENT}" | \
+tee /etc/apt/sources.list && apt update
 ```
 
 ### 安装必要软件包

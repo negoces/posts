@@ -24,18 +24,17 @@ categories: Debian Router
         - `*.network` 使用 `20-` 前缀
         - 具体视情况而定
 
-### [选] 接口改名及修改 MAC
+### [选] 接口改名
 
-- 例: 将 MAC 为 `00:15:5d:01:78:01` 的接口改名为 `enp1` 并将 MAC 修改为 `00:15:5d:01:00:01`
-- 创建并编辑 `/etc/systemd/network/00-enp1.link`
+- 例: 将 MAC 为 `00:15:5d:01:78:01` 的接口改名为 `eth0` 并将 MAC 修改为 `00:15:5d:01:00:01`
+- 创建并编辑 `/etc/systemd/network/00-eth0.link`
 
 ```ini
 [Match]
 MACAddress=00:15:5d:01:78:01
 
 [Link]
-Name=enp1
-MACAddress=00:15:5d:01:00:01
+Name=eth0
 ```
 
 ### WAN 口启用 DHCP 获取 IP
@@ -47,6 +46,10 @@ MACAddress=00:15:5d:01:00:01
 ```ini
 [Match]
 Name=eth0
+
+# [可选] 此节为 MAC 地址覆写 (即为 MAC 地址克隆)
+[Link]
+MACAddress=00:15:5d:01:00:01
 
 [Network]
 DHCP=yes
@@ -140,7 +143,7 @@ sudo pacman -Sy ppp
 ```
 
 {{<hint info>}}
-**LXC容器中使用ppp设备**
+**如果在 LXC 容器中使用 ppp 设备**
 
 `sudo lxc-device add -n <name> /dev/ppp /dev/ppp`
 {{</hint>}}

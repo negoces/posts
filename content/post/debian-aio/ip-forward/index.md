@@ -27,6 +27,7 @@ sudo apt install -y nftables
 
 - 编辑 **`/etc/nftables.conf`**
 - `line 10` masquerade 可选类型 `fully-random`、`random`、`persistent`
+- 将为来自 `br-lan` 路由至 `eth0`、`ppp*` 的启用 NAT
 
 ```groovy
 flush ruleset
@@ -39,6 +40,7 @@ table ip nat {
 
     chain ip_masquerade {
         oifname "eth0" masquerade fully-random
+        oifname "ppp*" masquerade fully-random
     }
 }
 ```
