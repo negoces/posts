@@ -50,7 +50,7 @@ sudo chmod 777 /opt/clash/subconf
 - 编辑 `/opt/clash/config.yaml`
 
 ```yaml
-port: 8080
+port: 7890
 socks-port: 1080
 tproxy-port: 5092
 
@@ -77,7 +77,7 @@ proxy-providers:
     interval: 3600
     health-check:
       enable: true
-      url: http://www.google.com/generate_204
+      url: https://www.google.com/generate_204
       interval: 1800
 
 rules:
@@ -87,7 +87,7 @@ rules:
 ### 多机场示例
 
 ```yaml
-port: 8080
+port: 7890
 socks-port: 1080
 tproxy-port: 5092
 
@@ -122,7 +122,7 @@ proxy-providers:
     interval: 3600
     health-check:
       enable: true
-      url: http://www.google.com/generate_204
+      url: https://www.google.com/generate_204
       interval: 1800
   providerb:
     type: http
@@ -131,7 +131,7 @@ proxy-providers:
     interval: 3600
     health-check:
       enable: true
-      url: http://www.google.com/generate_204
+      url: https://www.google.com/generate_204
       interval: 1800
 
 rules:
