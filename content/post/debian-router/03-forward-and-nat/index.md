@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 03]: 启用转发和 NAT"
 description: "启用内核的 IPv4 和 IPv6 转发并使用 nftables 实现 NAT"
 date: 2023-04-09T12:38:17+08:00
 slug: b01133d3
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, Router, Gateway, nftables, NAT]
 categories: Debian Router
 ---

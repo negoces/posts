@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 04]: DNS 服务 (带分流)"
 description: "使用 dnsmasq 实现域名分流解析"
 date: 2023-04-09T17:30:23+08:00
 slug: b0021561
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, Router, Gateway, DNS, dnsmasq]
 categories: Debian Router
 ---

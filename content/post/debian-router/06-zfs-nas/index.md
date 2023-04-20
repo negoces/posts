@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 06]: 创建 ZFS 卷并启用 Samba"
 description: "实现基础 NAS 功能"
 date: 2023-04-19T11:35:40+08:00
 slug: b6b316de
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, NAS, OpenZFS, Samba]
 categories: Debian Router
 ---

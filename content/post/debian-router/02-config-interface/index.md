@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 02]: 配置网络接口"
 description: "使用 systemd-networkd 配置网络接口"
 date: 2023-04-05T11:24:03+08:00
 slug: b04fa8dd
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, Router, Gateway, SystemD, networkd]
 categories: Debian Router
 ---

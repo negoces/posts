@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 01]: 安装系统"
 description: "从零开始使用 Debian 构建起完全可自定义的软路由"
 date: 2023-03-25T01:20:02+08:00
 slug: 5c44d276
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, Router, Gateway, EFISTUB]
 categories: Debian Router
 ---

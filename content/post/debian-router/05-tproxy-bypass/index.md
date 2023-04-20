@@ -3,7 +3,7 @@ title: "Debian 网关 [Episode 05]: 透明代理"
 description: "使用 nftables 实现不依赖代理软件分流的透明代理"
 date: 2023-04-11T17:08:22+08:00
 slug: fd2f28d0
-#image: "cover.png"
+image: "cover.png"
 tags: [Debian, Router, Gateway, TProxy, nftables]
 categories: Debian Router
 ---
