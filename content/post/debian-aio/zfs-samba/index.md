@@ -111,58 +111,50 @@ data/share    96K  1.76T       96K  /data/share
 {{<hint warning>}}
 **Tips:**
 
-- **块级去重**、**字节级去重** 与 **压缩** 和 **加密** 冲突
-- **以下内容来自 Claude，无法保证准确性**
+- **块级去重** 与 **压缩** 和 **加密** 冲突
+- **去重对性能损耗极为严重，尤其是 HDD，建议设置完后参考下文的【写入性能测试】至少写入 8GB 的数据对磁盘速度进行测试**
 {{</hint>}}
 
-### 关闭去重
+- Debian Bookworm 目前支持的去重方式
+    - `on`
+    - `off`
+    - `verify`
+    - `sha256[,verify]`
+    - `sha512[,verify]`
+    - `skein[,verify]`
+    - `edonr,verify`
+    - 其中：
+        - `sha256`、`sha512`、`skein`、`edonr` 为散列方式；
+        - `[]` 内为可选项，使用时要将括号去除；
+        - 带 `verify` 的为块级去重，不带则为文件去重；
+        - `off` 为关闭，`on` 默认为 `sha256`；
+
+- 如何查看本机支持的去重方式:
+    ```bash
+    # 原理是给 dedup 一个无效属性，它就会告诉你支持哪些
+    sudo zfs set dedup=help ${POOL_NAME}
+    ```
+- 设置去重
 
 ```bash
-sudo zfs set dedup=off ${POOL_NAME}
-# or
-sudo zfs set dedup=off ${FS_NAME}
-```
-
-### 文件级去重
-
-```bash
-sudo zfs set dedup=on ${POOL_NAME}
-# or
 sudo zfs set dedup=on ${FS_NAME}
-```
-
-### 块级去重
-
-**Tips:** 默认块大小 128KB
-
-```bash
-sudo zfs set dedup=verify ${POOL_NAME}
-# or
-sudo zfs set dedup=verify ${FS_NAME}
-```
-
-### 字节级去重
-
-```bash
-sudo zfs set dedup=sha256,verify ${POOL_NAME}
-# or
-sudo zfs set dedup=sha256,verify ${FS_NAME}
 ```
 
 ## 数据压缩 | Compression
 
-```bash
-# zfs set compression=<gzip|lz4|zstd|off> <name>
-sudo zfs set compression=lz4 ${POOL_NAME}
-# or
-sudo zfs set compression=lz4 ${FS_NAME}
-```
+- 查看本机支持的压缩方式，与上文【去重】相同，将 `dedup` 替换为 `compression` 即可
+- 启用压缩
+    ```bash
+    sudo zfs set compression=on ${FS_NAME}
+    ```
 
 ## 写入性能测试
 
+
 ```bash
 cd /data/share
-sudo dd if=/dev/urandom of=4G.test bs=32K count=131072 status=progress
+sudo dd if=/dev/urandom of=16G.test bs=64K count=262144 status=progress
+sudo dd if=/dev/urandom of=8G.test bs=4M count=2048 status=progress
 ```
 
 ## Samba 服务
