@@ -4,9 +4,13 @@ description: "使用 systemd-networkd 配置网络接口"
 date: 2023-04-05T11:24:03+08:00
 slug: b04fa8dd
 image: "cover.png"
-tags: [Debian, Router, Gateway, SystemD, networkd]
+tags: [Debian, Router, Gateway, SystemD, networkd, dnsmasq]
 categories: Debian Router
 ---
+
+**更新日志:**
+
+- 2023-04-20 将 DHCP 服务器变更为 dnsmasq 以获取更多的功能
 
 ## 结构
 
@@ -94,26 +98,38 @@ Address=192.168.64.1/24
 ConfigureWithoutCarrier=yes
 ```
 
-- DHCP Server (若使用 networkd 内置 DHCP 服务器，将下面内容追加到上面的配置文件中)
+#### DHCP Server
 
-```ini
-[Network]
-DHCPServer=yes
+使用 dnsmasq，顺便把 DNS 服务器也配置了
 
-[DHCPServer]
-PoolSize=253
-DNS=_server_address
-BindToInterface=yes
+1. 安装 dnsmasq
+    ```bash
+    sudo apt install -y dnsmasq
+    sudo systemctl stop dnsmasq
+    ```
+1. 删除原有配置
+    ```bash
+    sudo rm -vf /etc/dnsmasq.conf
+    ```
+1. 创建并编辑 `/etc/dnsmasq.conf`
+    ```ini
+    server=114.114.114.114
+    no-resolv
+    strip-mac
+    strip-subnet
+    all-servers
+    cache-size=8192
+    bind-interfaces
 
-# MACAddress 静态绑定
-[DHCPServerStaticLease]
-MACAddress = xx:xx:xx:xx:xx:xx
-Address = xx.xx.xx.xx
-
-[DHCPServerStaticLease]
-MACAddress = xx:xx:xx:xx:xx:xx
-Address = xx.xx.xx.xx
-```
+    interface=br-lan
+    dhcp-range=192.168.64.32,192.168.64.254,8h
+    # 192.168.64.32 以下预留给一些服务
+    # 静态绑定: dhcp-host=xx:xx:xx:xx:xx:xx,192.168.64.50,infinite
+    ```
+1. 启动 dnsmasq
+    ```bash
+    sudo systemctl start dnsmasq
+    ```
 
 #### 将物理网口绑定到网桥
 
