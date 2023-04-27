@@ -4,7 +4,7 @@ description: "OpenSSH 的一些常用指令及密钥登陆指南"
 date: 2023-04-28T02:25:39+08:00
 slug: ec7e8223
 #image: "cover.png"
-tags: []
+tags: [OpenSSH, ed25519, authorized_keys]
 categories: Operations
 ---
 
