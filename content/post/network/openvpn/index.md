@@ -6,6 +6,8 @@ slug: 33a2461b
 #image: "cover.png"
 tags: [OpenVPN]
 categories: Network
+draft: true
+// TODO: openvpn
 ---
 
 ## Install

@@ -1,10 +1,10 @@
 ---
-title: "ESP-IDF 点亮 WS2812B"
-description: "嵌入式第一步，点亮LED"
+title: "ESP-IDF 最小项目"
+description: "编程第一步，Hello World"
 date: 2023-03-27T20:52:03+08:00
 slug: 1eb238e0
 #image: "cover.png"
-tags: [ESP32C3, WS2812B, ESP-IDF]
+tags: [ESP32C3, ESP-IDF]
 categories: ESP32C3
 ---
 
@@ -56,7 +56,3 @@ idf.py menuconfig
 idf.py build
 idf.py flash monitor
 ```
-
-> Matter 安装所需包
->
-> - `libgirepository` - `libgirepository-1.0.so.1`
