@@ -98,39 +98,6 @@ Address=192.168.64.1/24
 ConfigureWithoutCarrier=yes
 ```
 
-#### DHCP Server
-
-使用 dnsmasq，顺便把 DNS 服务器也配置了
-
-1. 安装 dnsmasq
-    ```bash
-    sudo apt install -y dnsmasq
-    sudo systemctl stop dnsmasq
-    ```
-1. 删除原有配置
-    ```bash
-    sudo rm -vf /etc/dnsmasq.conf
-    ```
-1. 创建并编辑 `/etc/dnsmasq.conf`
-    ```ini
-    server=114.114.114.114
-    no-resolv
-    strip-mac
-    strip-subnet
-    all-servers
-    cache-size=8192
-    bind-interfaces
-
-    interface=br-lan
-    dhcp-range=192.168.64.32,192.168.64.254,8h
-    # 192.168.64.32 以下预留给一些服务
-    # 静态绑定: dhcp-host=xx:xx:xx:xx:xx:xx,192.168.64.50,infinite
-    ```
-1. 启动 dnsmasq
-    ```bash
-    sudo systemctl start dnsmasq
-    ```
-
 #### 将物理网口绑定到网桥
 
 - 创建并编辑 `/etc/systemd/network/20-br-lan-bind.network`

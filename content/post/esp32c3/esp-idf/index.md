@@ -107,7 +107,7 @@ idf.py flash monitor
         - `usbipd bind --force --busid=<busid>` (管理员)
     - Linux:
         - `usbip list --remote=<host>`
-        - `sudo usbip list --remote=<host> --busid=<busid>`
+        - `sudo usbip attach --remote=<host> --busid=<busid>`
 
 **在 Arch Linux 上没有权限访问串口:**
 
