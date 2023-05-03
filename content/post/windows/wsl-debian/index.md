@@ -15,29 +15,71 @@ categories: WSL
 - 对于 x64 系统：版本 1903 或更高版本，内部版本为 18362 或更高版本。
 - 对于 ARM64 系统：版本 2004 或更高版本，内部版本为 19041 或更高版本。
 
-## 启用相关功能
+## 启用 WSL 功能
 
 安装方式二选一，**需要管理员权限**，**需重启**
 
-```bash
-# PowerShell
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -All
-Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All
+> **[未验证]** 好像这个也行： `wsl --install --no-distribution --web-download`
 
-# CMD
-DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Windows-Subsystem-Linux
-DISM /Online /Enable-Feature /All /FeatureName:VirtualMachinePlatform
-```
+### 使用 PowerShell
 
-## 更新 WSL 内核
+- 启用
+    ```pwsh
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -All -NoRestart
+    Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -All -NoRestart
+    ```
+- 禁用
+    ```pwsh
+    Disable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart -Remove
+    Disable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform -NoRestart -Remove
+    ```
 
-- 下载: <https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi>
-- 安装: wsl_update_x64.msi
-- 将 WSL2 设置为默认版本: `wsl --set-default-version 2`
+### 使用 DISM
+
+在 CMD 和 PowerShell 中均可使用
+
+- 启用
+    ```bash
+    DISM /Online /Enable-Feature /All /NoRestart /FeatureName:Microsoft-Windows-Subsystem-Linux
+    DISM /Online /Enable-Feature /All /NoRestart /FeatureName:VirtualMachinePlatform
+    ```
+- 禁用
+    ```bash
+    DISM /Online /Disable-Feature /Remove /NoRestart /FeatureName:Microsoft-Windows-Subsystem-Linux
+    DISM /Online /Disable-Feature /Remove /NoRestart /FeatureName:VirtualMachinePlatform
+    ```
+
+## 安装及更新 WSL 内核
+
+- 查看当前状态
+    ```bash
+    wsl --status
+    wsl --version
+    ```
+- 安装/更新内核 **(需管理员权限，需要代理)**
+    ```bash
+    wsl --update --web-download
+    ```
+- 将 WSL2 设置为默认版本
+    ```bash
+    wsl --set-default-version 2
+    ```
 
 ## 安装系统
 
-- 不采用官方所说的命令行方式安装（原因：太慢）
+也是两种方式：命令行安装、手动安装
+
+### 命令行方式安装
+
+- 下载需要代理
+- 添加 `--web-download` 参数下载最新的镜像 (否则 Debian 9 将等着你)
+
+```bash
+wsl --install --distribution Debian --web-download
+```
+
+### 手动安装
+
 - 将直接下载 appxbundle 后安装
 
 1. 前往: <https://store.rg-adguard.net/>
@@ -52,29 +94,31 @@ DISM /Online /Enable-Feature /All /FeatureName:VirtualMachinePlatform
 ### 设置镜像
 
 ```bash
-# 设置镜像并下载 ca-certificates
+# 设置镜像所需关键字
 export MIRROR_URL="http://mirrors.bfsu.edu.cn"
 export BRANCH="bookworm"
 export COMPONENT="main contrib non-free non-free-firmware"
 
-echo "deb ${MIRROR_URL}/debian/ ${BRANCH} ${COMPONENT}
+# 将镜像配置写入 sources.list
+sudo tee /etc/apt/sources.list > /dev/null <<EOF
+deb ${MIRROR_URL}/debian/ ${BRANCH} ${COMPONENT}
 deb ${MIRROR_URL}/debian/ ${BRANCH}-updates ${COMPONENT}
-deb ${MIRROR_URL}/debian-security/ ${BRANCH}-security ${COMPONENT}" | \
-sudo tee /etc/apt/sources.list && sudo apt update && sudo apt install -y ca-certificates
+deb ${MIRROR_URL}/debian-security/ ${BRANCH}-security ${COMPONENT}
+EOF
 
-# 设置镜像(启用 HTTPS)
-export MIRROR_URL="https://mirrors.bfsu.edu.cn"
+# 更新索引并安装 ca-certificates (HTTPS 依赖)
+sudo apt update && sudo apt install -y ca-certificates
 
-echo "deb ${MIRROR_URL}/debian/ ${BRANCH} ${COMPONENT}
-deb ${MIRROR_URL}/debian/ ${BRANCH}-updates ${COMPONENT}
-deb ${MIRROR_URL}/debian-security/ ${BRANCH}-security ${COMPONENT}" | \
-sudo tee /etc/apt/sources.list && sudo apt update
+# 启用 HTTPS 并更新索引
+sudo sed -i 's/http:/https:/g' /etc/apt/sources.list && sudo apt update
 ```
 
 ### 完整更新系统
 
 ```bash
+# 更新索引并更新系统
 sudo apt update && sudo apt full-upgrade -y
+
 # 卸载无用包
 sudo apt autopurge -y
 ```
@@ -108,6 +152,12 @@ sudo apt install -y vulkan-tools
 
 - 运行 `vkcube` 或 `vkcube-wayland`
 
+#### Intel GPU 加速
+
+安装下面的驱动，然后重启电脑：
+
+<https://www.intel.cn/content/www/cn/zh/download/19344/intel-graphics-windows-dch-drivers.html>
+
 ## 使用 NVIDIA CUDA
 
 ### 先决条件
@@ -116,21 +166,26 @@ sudo apt install -y vulkan-tools
 - 安装 WSL 并为 Linux 分发版设置用户名和密码。
 - Windows 上已安装最新 NVIDIA 驱动
 
-### 安装 nvidia-smi
+### 修复 libcuda.so.1 链接
+
+**问题表现：** 在 apt 安装软件时报错
 
 ```bash
-sudo apt install -y nvidia-smi
+ldconfig: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
 ```
 
-### 验证
+**解决方法：** 在 Windows 上使用 **管理员权限** 运行(PowerShell):
 
-```bash
-nvidia-smi
+```pwsh
+Set-Location C:\Windows\System32\lxss\lib
+Remove-Item libcuda.so
+Remove-Item libcuda.so.1
+New-Item -ItemType SymbolicLink -Path "libcuda.so.1" -Target "libcuda.so.1.1"
+New-Item -ItemType SymbolicLink -Path "libcuda.so" -Target "libcuda.so.1.1"
 ```
 
-- 或者
+然后重启 WSL，在 WSL 内检查 CUDA 版本:
 
 ```bash
-sudo apt install -y nvtop
-nvtop
+/usr/lib/wsl/lib/nvidia-smi
 ```
