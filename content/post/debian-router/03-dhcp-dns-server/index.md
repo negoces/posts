@@ -8,6 +8,8 @@ tags: [Debian, Router, Gateway, DNS, dnsmasq]
 categories: Debian Router
 ---
 
+> - **2023/05/07：** 因 CN 白名单分流对使用体验影响较大，改为部分域名白名单分流
+
 ## 安装 dnsmasq
 
 ```bash
@@ -41,10 +43,11 @@ export IP_POOL_S="192.168.64.32"
 export IP_POOL_E="192.168.64.254"
 
 sudo tee /etc/dnsmasq.conf > /dev/null <<EOF
-port=53
-server=1.1.1.1
-server=1.0.0.1
+server=114.114.114.114
+server=114.114.115.115
 no-resolv
+strip-mac
+strip-subnet
 all-servers
 cache-size=8192
 conf-dir=/etc/dnsmasq.d
@@ -63,27 +66,34 @@ EOF
 - 说明：
     - `line 1`: `example.com` 替换为自己的本地域域名
     - `line 2`: 192.168.64.32 以下预留给一些服务
-    - 静态绑定: (在 `line 21` 之后追加，`${}` 变量自行替换)
+    - 静态绑定: (在 `line 22` 之后追加，`${}` 变量自行替换)
         - 基于 MAC 地址: `dhcp-host=${MAC_ADDRESS},${IP_ADDRESS},infinite`
         - 基于主机名: `dhcp-host=${IP_ADDRESS},${HOSTNAME},infinite`
 
 ### 分流配置
 
-**规则来源:** <https://github.com/felixonmars/dnsmasq-china-list> 
+将规则保存为 `/etc/dnsmasq.d/*.conf` 后，重启 dnsmasq 即可加载
 
-- 切换到配置目录
+- CN List: <https://github.com/felixonmars/dnsmasq-china-list> 
 
-```bash
-cd /etc/dnsmasq.d
+#### Steam 分流解析
+
+```ini
+# /etc/dnsmasq.d/steam.conf
+server=/steampowered.com/208.67.222.222#5353
+server=/steamcommunity.com/208.67.222.222#5353
+server=/steamgames.com/208.67.222.222#5353
+server=/steamusercontent.com/208.67.222.222#5353
+server=/steamcontent.com/208.67.222.222#5353
+server=/steamstatic.com/208.67.222.222#5353
+server=/akamaihd.net /208.67.222.222#5353
 ```
 
-- 下载配置
+#### 去广告
 
 ```bash
-sudo curl -fLO "https://raw.kgithub.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf"
-sudo curl -fLO "https://raw.kgithub.com/felixonmars/dnsmasq-china-list/master/apple.china.conf"
-sudo curl -fLO "https://raw.kgithub.com/felixonmars/dnsmasq-china-list/master/bogus-nxdomain.china.conf"
-sudo curl -fLO "https://raw.kgithub.com/felixonmars/dnsmasq-china-list/master/google.china.conf"
+sudo mkdir -p /etc/dnsmasq.d
+sudo curl -fL "https://anti-ad.net/anti-ad-for-dnsmasq.conf" -o /etc/dnsmasq.d/anitad.conf
 ```
 
 ### 启动 dnsmasq
@@ -152,3 +162,14 @@ server=127.0.0.1#5053
 ### 方案二：将 DNS 流量代理出去
 
 dnsmasq 没有代理选项，需要用到透明代理技术，参见之后的透明代理
+
+### 方案三：非 53 端口
+
+- OpenDNS
+    - `208.67.222.222#5353`
+    - `208.67.220.220#5353`
+    - 测试:
+        - UDP：`dig google.com @208.67.222.222 -p 5353`
+        - TCP：`dig google.com @208.67.222.222 -p 5353 +tcp`
+    - 使用:
+        - `server=/steampowered.com/208.67.222.222#5353`
