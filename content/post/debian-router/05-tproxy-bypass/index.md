@@ -59,12 +59,17 @@ table ip proxy {
     define PROXY_PORT = 5092
     define REROUTE_MARK = 0xe105
 
+    set whitelist {
+        type ipv4_addr
+    }
+
     chain prerouting {
         type filter hook prerouting priority mangle; policy accept;
         iifname { "br-lan" } ip daddr != $RESERVED jump proxy_rule
     }
 
     chain proxy_rule {
+        ip daddr @whitelist return
         tcp dport { 22, 80, 443, 853 } jump proxy_redirect
         udp dport { 53, 443 } jump proxy_redirect
     }
@@ -75,6 +80,16 @@ table ip proxy {
         ip protocol udp tproxy to :$PROXY_PORT meta mark set $REROUTE_MARK
     }
 }
+```
+
+### dnsmasq 白名单
+
+将某些域名的 ip 加入白名单，不然会因为代理而无法登陆，比如 Arcaea
+
+```bash
+# /etc/dnsmasq.d/nftset.conf
+nftset=/arcapi-v2.lowiro.com/4#ip#proxy#whitelist
+nftset=/arcapi-pro-tcp-lb-059cb924e42f3fb8.elb.us-west-2.amazonaws.com/4#ip#proxy#whitelist
 ```
 
 ### 如何 Debug
